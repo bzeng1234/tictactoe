@@ -1,8 +1,10 @@
 #include "tictactoe.h"
 #include "player.h"
+#include <cctype>
 
 tictactoe::tictactoe(/* args */)
-:tictactoe_map(3, std::vector<int>(3,0))
+:tictactoe_map(3, std::vector<int>(3,0)),
+playAgain(true)
 {
 }
 
@@ -23,45 +25,99 @@ void tictactoe::print_map()
     }
 }
 
-int tictactoe::add_elem(int& row, int& col, player& player)
+void tictactoe::clear_map()
 {
-    if(row >= tictactoe_map.size() || col >= tictactoe_map[0].size())
-        return 0;
-
-    if(tictactoe_map[row][col] > 0)
-        return 0;
-
-    tictactoe_map[row][col] = player.getNum();
-    return 1;
+    for(int i = 0; i < tictactoe_map.size();i++)
+    {
+        for(int j = 0; j < tictactoe_map[i].size();j++)
+        {
+            tictactoe_map[i][j] = 0;
+        }
+    }
 }
 
 void tictactoe::start_game(tictactoe& tictactoe_inst, player player1, player player2)
 {
     player current_player = player1;
     int row, col;
-    while(checkWinner() == 0)
+
+    while(playAgain == true)
     {
-        std::cout << "Player " << current_player.getNum() << ", choose your index"<< std::endl;
-        std::cin >> row >> col;
-        std::cout << "Player " << current_player.getNum() << ", has selected row:"<< row << " and column:" << col << std::endl;
+        row = current_player.chooseRow();
+        col = current_player.chooseColumn();
 
         while(!tictactoe_inst.add_elem(row, col, current_player))
         {
-            std::cout << "That index is either invalid or has been selected, choose a different index" << std::endl;
-            std::cout << "Player " << current_player.getNum() << ", choose your index"<< std::endl;
-            std::cin >> row >> col;
-            std::cout << "Player " << current_player.getNum() << ", has selected row:"<< row << " and column:" << col << std::endl;
+            row = current_player.chooseRow();
+            col = current_player.chooseColumn();
         }
 
         tictactoe_inst.print_map();
 
-        int nextid = current_player.nextPlayer(current_player.getNum());
-        if(nextid == 2)
-            current_player = player2;
-        else if (nextid == 1)
-            current_player = player1;
+        int result = checkWinner();
+        if(result == 0)
+        {
+            current_player = current_player.nextPlayer(current_player.getNum(), player1, player2);
+        }
+        else if(result >= 1){
+            std::cout <<"Player "<< current_player.getNum() << " won!!!" << std::endl;
+            playAgain = playagain();
+            clear_map();
+        }
+        else if(result == -1){
+            std::cout <<"Both players tied game "<< std::endl;
+            playAgain = playagain();
+        }
     }
-    std::cout <<"Player "<< checkWinner() << " won!!!" << std::endl;
+    exit_game();
+}
+
+void tictactoe::exit_game()
+{
+    std::cout << "Thanks for playing!!!" << std::endl;
+}
+
+bool tictactoe::playagain()
+{
+    char response;
+    std::cout << "Do you want to play again? [Y,N]" << std::endl;
+    std::cin >> response;
+    toupper(response);
+    while(response != 'Y' && response != 'N')
+    {
+        std::cout << "Invalid Response, do you want to play again? [Y,N]" << std::endl;
+        std::cin >> response;
+    }
+    switch (response)
+    {
+    case 'Y':
+        return true;
+        break;
+    case 'N':
+        return false;
+        break;
+    default:
+        break;
+    }
+    return 0;
+}
+
+int tictactoe::add_elem(int& row, int& col, player& player)
+{
+    if(row >= tictactoe_map.size() || col >= tictactoe_map[0].size())
+    {
+        std::cout << "That index is invalid, please choose a different index" << std::endl;
+        return 0;
+    }
+
+    if(tictactoe_map[row][col] > 0)
+    {
+        std::cout << "That index has already been selected, please choose a different index" << std::endl;
+        return 0;
+    }
+
+    tictactoe_map[row][col] = player.getNum();
+    return 1;
 }
 
 int tictactoe::checkWinner()

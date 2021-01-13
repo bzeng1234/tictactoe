@@ -12,7 +12,9 @@ public:
 static int id;
     player(/* args */);
     int getNum();
-    int nextPlayer(int playerid);
+    player nextPlayer(int playerid, player player1,player player2);
+    int chooseRow();
+    int chooseColumn();
     ~player();
 };
 

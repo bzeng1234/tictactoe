@@ -17,10 +17,22 @@ int player::getNum()
     return num;
 }
 
-int player::nextPlayer(int playerid)
+player player::nextPlayer(int playerid,player player1,player player2)
 {
-    if(playerid == 1)
-        return 2;
-    else if (playerid == 2)
-        return 1;
+    return (playerid == 1) ? player2 : player1;
+}
+
+int player::chooseRow()
+{
+    int row = 0;
+    std::cout << "Player " << getNum() << ", choose your row"<< std::endl;
+    std::cin >> row;
+    return row;
+}
+int player::chooseColumn()
+{
+    int column = 0;
+    std::cout << "Player " << getNum() << ", choose your column"<< std::endl;
+    std::cin >> column;
+    return column;
 }
