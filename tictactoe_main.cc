@@ -20,5 +20,7 @@ int main()
     std::cout << "Lets begin...\n\n";
 
     tictactoe_inst.start_game(tictactoe_inst, player1, player2);
+    tictactoe_inst.exit_game();
+
     return 0;
 }

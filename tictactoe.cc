@@ -12,6 +12,8 @@ tictactoe::~tictactoe()
 {
 }
 
+/* Print current tictactoe map */
+
 void tictactoe::print_map()
 {
     std::cout << "---------" << std::endl;
@@ -25,6 +27,8 @@ void tictactoe::print_map()
     }
 }
 
+/* Clears tictactoe map when a game ends */
+
 void tictactoe::clear_map()
 {
     for(int i = 0; i < tictactoe_map.size();i++)
@@ -36,6 +40,8 @@ void tictactoe::clear_map()
     }
 }
 
+/* Main functionality of the the game */
+
 void tictactoe::start_game(tictactoe& tictactoe_inst, player player1, player player2)
 {
     player current_player = player1;
@@ -45,11 +51,13 @@ void tictactoe::start_game(tictactoe& tictactoe_inst, player player1, player pla
     {
         row = current_player.chooseRow();
         col = current_player.chooseColumn();
+        current_player.printSelectedIndex(row, col);
 
         while(!tictactoe_inst.add_elem(row, col, current_player))
         {
             row = current_player.chooseRow();
             col = current_player.chooseColumn();
+            current_player.printSelectedIndex(row, col);
         }
 
         tictactoe_inst.print_map();
@@ -69,8 +77,8 @@ void tictactoe::start_game(tictactoe& tictactoe_inst, player player1, player pla
             playAgain = playagain();
         }
     }
-    exit_game();
 }
+
 
 void tictactoe::exit_game()
 {
