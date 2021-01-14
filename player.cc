@@ -14,30 +14,30 @@ player::~player()
 
 int player::getNum()
 {
-    return num;
+    return this->num;
 }
 
-player player::nextPlayer(int playerid,player player1,player player2)
+player player::nextPlayer(player player1,player player2)
 {
-    return (playerid == 1) ? player2 : player1;
+    return (this->getNum() == 1) ? player2 : player1;
 }
 
 int player::chooseRow()
 {
     int row = 0;
-    std::cout << "Player " << getNum() << ", choose your row: ";
+    std::cout << "Player " << this->getNum() << ", choose your row: ";
     std::cin >> row;
     return row;
 }
 int player::chooseColumn()
 {
     int column = 0;
-    std::cout << "Player " << getNum() << ", choose your column: ";
+    std::cout << "Player " << this->getNum() << ", choose your column: ";
     std::cin >> column;
     return column;
 }
 
 void player::printSelectedIndex(int row, int col)
 {
-    std::cout << "Player " << getNum() << " chose [" <<row<<","<<col<<"]" << std::endl;
+    std::cout << "Player " << this->getNum() << " chose [" <<row<<","<<col<<"]" << std::endl;
 }

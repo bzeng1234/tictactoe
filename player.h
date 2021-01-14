@@ -12,7 +12,7 @@ public:
 static int id;
     player(/* args */);
     int getNum();
-    player nextPlayer(int playerid, player player1,player player2);
+    player nextPlayer(player player1,player player2);
     int chooseRow();
     int chooseColumn();
     void printSelectedIndex(int row, int col);

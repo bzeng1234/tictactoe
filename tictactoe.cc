@@ -65,7 +65,7 @@ void tictactoe::start_game(tictactoe& tictactoe_inst, player player1, player pla
         int result = checkWinner();
         if(result == 0)
         {
-            current_player = current_player.nextPlayer(current_player.getNum(), player1, player2);
+            current_player = current_player.nextPlayer(player1, player2);
         }
         else if(result >= 1){
             std::cout <<"Player "<< current_player.getNum() << " won!!!" << std::endl;
